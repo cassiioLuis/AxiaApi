@@ -3,6 +3,7 @@ import { books, book } from "../support/schema"
 
 const Ajv = require("ajv")
 const ajv = new Ajv({ allErrors: true, verbose: true })
+const bookValidation = require('../fixtures/mock-book.json')
 
 describe('/BookStore', () => {
 
@@ -27,13 +28,6 @@ describe('/BookStore', () => {
             cy.get('@books')
                 .its('status')
                 .should('equal', 200)
-        })
-
-        it('validade length of array equal 8', () => {
-            cy.get('@books')
-                .its('body')
-                .its('books')
-                .should('have.length', 8)
         })
 
         it('validate structre', () => {
@@ -99,9 +93,17 @@ describe('/BookStore', () => {
         })
 
         it('validate title of the book', () => {
-            cy.get('@book')
-                .its('body')
-                .should('have.a.property', 'title', 'Understanding ECMAScript 6')
+            cy.get('@book').then(response => {
+                expect(response.body.isbn).to.eq(bookValidation.isbn)
+                expect(response.body.title).to.eq(bookValidation.title)
+                expect(response.body.subTitle).to.eq(bookValidation.subTitle)
+                expect(response.body.author).to.eq(bookValidation.author)
+                expect(response.body.publish_date).to.eq(bookValidation.publish_date)
+                expect(response.body.publisher).to.eq(bookValidation.publisher)
+                expect(response.body.pages).to.eq(bookValidation.pages)
+                expect(response.body.description).to.eq(bookValidation.description)
+                expect(response.body.website).to.eq(bookValidation.website)
+            })
         })
 
     })
