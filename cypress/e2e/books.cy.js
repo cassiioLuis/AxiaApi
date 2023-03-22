@@ -7,9 +7,6 @@ const bookValidation = require('../fixtures/mock-book.json')
 
 describe('/BookStore', () => {
 
-    before(() => {
-        cy.createUser(user)
-    })
 
     context('GET - /Books', () => {
 
@@ -143,12 +140,6 @@ describe('/BookStore', () => {
             })
         })
 
-    })
-
-
-    after(() => {
-        cy.authorized(user)
-        cy.deleteUser()
     })
 
 })
